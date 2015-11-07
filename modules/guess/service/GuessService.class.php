@@ -80,9 +80,9 @@ class GuessService extends TransationSupport implements IGuessService{
 	}
 	
 	/*
-	 * @see IGuessService::delete()
+	 * @see IGuessService::real_delete()
 	*/
-	public function delete(Guess $guess){
+	public function real_delete(Guess $guess){
 		if(!$guess || $guess->getPlayCount()) return false;
 		$user = $guess->getUser();
 		try{
@@ -308,10 +308,15 @@ class GuessService extends TransationSupport implements IGuessService{
 	}
 
 	/* 
-	 * @see IGuessService::close()
+	 * @see IGuessService::delete()
+	 * @brif: 只针对对 审核为通过的竞彩进行关闭
 	 */
-	public function close(Guess $guess){
+	public function delete(Guess $guess){
 		if(!$guess || $guess->getPlayCount()) return false;
+
+        if($guess->getStatus() !== Guess::STATUS_WAITING_CKECK || !$guess->getStatus()){
+            return false;
+        }
 		try{
 			$this->beginTransation();
 			//改变状态

@@ -1293,15 +1293,14 @@ CREATE TABLE IF NOT EXISTS `yyx_user_withdraw` (
 	`admin_user_id` int NOT NULL DEFAULT '0' COMMENT '系统账号',
 	`admin_info` varchar(200) NOT NULL DEFAULT '' ,
 	`admin_ipv4` varchar(20) NOT NULL DEFAULT '',
-
   PRIMARY KEY (`id`),
-  index(user_id, wallet_address, txid)
+  index(`user_id`, `wallet_address`, `txid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 --  存款
 --
-CREATE TABLE yyx_user_deposit (
+CREATE TABLE IF NOT EXISTS yyx_user_deposit (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
 	`wallet_address` varchar(50) NOT NULL COMMENT '钱包地址' ,
@@ -1314,14 +1313,13 @@ CREATE TABLE yyx_user_deposit (
 	`admin_user_id` int NOT NULL DEFAULT '0' COMMENT '系统账号',
 	`admin_info` varchar(200) NOT NULL DEFAULT '' ,
 	`admin_ipv4` varchar(20) NOT NULL DEFAULT '',
-
   PRIMARY KEY (`id`),
-  index(user_id, wallet_address, txid)
+  index(`user_id`, `wallet_address`, `txid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 
-CREATE TABLE yyx_address_multiaddrs (
+CREATE TABLE IF NOT EXISTS yyx_address_multiaddrs (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`category` varchar(10) NOT NULL DEFAULT ' ' COMMENT '',
 	`account` varchar(50) NOT NULL DEFAULT ' ' COMMENT '',
@@ -1338,11 +1336,11 @@ CREATE TABLE yyx_address_multiaddrs (
 	`address` varchar(150) NOT NULL DEFAULT ' ',
 	`is_load` bit NOT NULL ,
 	`is_exist` bit NOT NULL ,
-	`info` varchar(100) NULL DEFAULT '' COMMENT '' ,
-
+	`info` varchar(100) NULL DEFAULT '' COMMENT '用户钱包地址表' ,
   PRIMARY KEY (`id`),
-  index(account, address, txid)
-) ON PRIMARY
+  UNIQUE KEY `address` (`address`),
+  index(`account`, `txid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 --
