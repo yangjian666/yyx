@@ -85,8 +85,9 @@
 									{if $item['status'] == 0}待审核
 									{elseif $item['status'] == 1}审核通过
 									{elseif $item['status'] == 2}提交判定
-									{elseif $item['status'] == 3}已结束
+									{elseif $item['status'] == 3}已结算
 									{elseif $item['status'] == 4}已关闭
+                                    {elseif $item['status'] == 5}已解散
 									{else}不详{/if}
 								</td>
 								<td align="left">{date $item['create_time'] Y-m-d}</td>
@@ -94,10 +95,13 @@
 									{if $item['status'] == 0}
 									<a href="{url /$currentModule/$currentAction/check/?id=$item[id]}">审核通过</a>&nbsp;
 									<a href="{url /$currentModule/$currentAction/close/?id=$item[id]}">关闭</a>&nbsp;
+                                    <a href="{url /$currentModule/$currentAction/edit/?id=$item[id]}">修改截止时间</a>&nbsp;
+                                    {elseif $item['status'] == 1}
+                                    <a href="{url /$currentModule/$currentAction/edit/?id=$item[id]}">修改截止时间</a>&nbsp;
 									{elseif $item['status'] == 2}
 									<a href="{url /$currentModule/$currentAction/rudge/?id=$item[id]}">结果判定</a>&nbsp;
+                                    <a href="{url /$currentModule/$currentAction/dimiss/?id=$item[id]}">解散</a>&nbsp;
 									{/if}
-									<a href="{url /$currentModule/$currentAction/del/?id=$item[id]}">删除</a>&nbsp;
 								</td>
 						</tr>
 						{/loop}

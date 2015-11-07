@@ -125,12 +125,12 @@ class GuessAction extends AbstractAdminAction{
 			show_message(get_lang('no_record_common'));
 		}
 		if($guess->getPlayCount()){
-			show_message('竞猜已有人参与，不能删除');
+			show_message('竞猜已有人参与，不能关闭');
 		}
         if($guess->getStatus() != Guess::STATUS_WAITING_CKECK){
-            show_message('已审核通过的竞猜，不能删除!');
+            show_message('已审核通过的竞猜，不能关闭!');
         }
-		$success = $guessService->delete($guess);
+		$success = $guessService->close($guess);
 		if($success){
 			//操作成功
 			$this->setMessage('op_success');
@@ -140,7 +140,40 @@ class GuessAction extends AbstractAdminAction{
 			show_message(get_lang('operation_failed_common'));
 		}
 	}
-	
+
+
+    /**
+     * 解散
+     * @param HttpRequest $request
+     */
+    public function dismiss(HttpRequest $request){
+        $id = $request->getParameter('id');
+        if (empty($id)) {
+            show_message(get_lang('no_record_common'));
+        }
+        $guessService = GuessServiceFactory::getGuessService();
+        $guess = $guessService->get($id, true);
+        if (empty($guess)) {
+            show_message(get_lang('no_record_common'));
+        }
+
+        if($guess->getStatus() != Guess::STATUS_WAITING_RUDGE){
+            show_message('该竞彩不能解散!');
+        }
+
+        $success = $guessService->dismiss($guess);
+        if($success){
+            //操作成功
+            $this->setMessage('op_success');
+            $request->redirect($request->getAttribute('index_url'));
+        }else{
+            //操作失败
+            show_message(get_lang('operation_failed_common'));
+        }
+
+    }
+
+
 	/**
 	 * 审核通过
 	 * @param HttpRequest $request

@@ -119,6 +119,11 @@ class Guess extends DynamicModelTransformSupport{
 	 * @var int
 	 */
 	const STATUS_CLOSE = 4;
+    /**
+     * 竞猜状态[解散]
+     * @var int
+     */
+    const STATUS_DISMISS = 5;
 	
 	/**
 	 * 参与角色:所有会员

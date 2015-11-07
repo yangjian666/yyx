@@ -80,9 +80,9 @@ class GuessService extends TransationSupport implements IGuessService{
 	}
 	
 	/*
-	 * @see IGuessService::real_delete()
+	 * @see IGuessService::delete()
 	*/
-	public function real_delete(Guess $guess){
+	public function delete(Guess $guess){
 		if(!$guess || $guess->getPlayCount()) return false;
 		$user = $guess->getUser();
 		try{
@@ -307,16 +307,61 @@ class GuessService extends TransationSupport implements IGuessService{
 		}
 	}
 
-	/* 
-	 * @see IGuessService::delete()
-	 * @brif: 只针对对 审核为通过的竞彩进行关闭
-	 */
-	public function delete(Guess $guess){
-		if(!$guess || $guess->getPlayCount()) return false;
+    /*
+     * @see IGuessService::close()
+     * @brif: 只针对对 审核为通过的竞彩进行关闭
+     */
+    public function dismiss(Guess $guess){
+        if (!$guess || $guess->getPlayCount()) return false;
+        $user = $guess->getUser();
 
-        if($guess->getStatus() !== Guess::STATUS_WAITING_CKECK || !$guess->getStatus()){
+        try {
+            $this->beginTransation();
+            //改变状态
+            $success = MD('Guess')->update(array('status' => Guess::STATUS_DISMISS), $guess->getId());
+            if (!$success) {
+                $this->rollBack();
+                return false;
+            }
+            //帮所有参与竞彩人的钱退回
+            $guessLink = NoticeService::makeGuessLink(array('id'=>$guess->getId(), 'title'=>$guess->getTitle()));
+            //资金解冻
+            $keepWealth = $guess->getKeepWealth();
+            if(!$guess->getCustom() && $keepWealth){
+                $userService = MemberServiceFactory::getUserService();
+                if($guess->wealthTypeIsWealth()){
+                    $wealthType = $guess->getWealthType();
+                    $typeFunc = $guess->getWealthTypeFuncName();
+                    $io = array(
+                        'from_user_id' => 0,
+                        'to_user_id' => $user->getId(),
+                        'to_title' => "解冻-解散竞猜{$guessLink}",
+                        'wealth_type' => $wealthType,
+                        'wealth' => $keepWealth,
+                        'to_balance' => $user->$typeFunc() + $keepWealth
+                    );
+                    if(!$userService->money($io, 1)){
+                        $this->rollBack();
+                        return false;
+                    }
+                }
+            }
+            $this->commit();
+            return true;
+
+        }catch(Exception $e){
+            $this->rollBack();
             return false;
         }
+    }
+
+	/* 
+	 * @see IGuessService::close()
+	 * @brif: 只针对对 审核为通过的竞彩进行关闭
+	 */
+	public function close(Guess $guess){
+		if(!$guess || $guess->getPlayCount()) return false;
+
 		try{
 			$this->beginTransation();
 			//改变状态
