@@ -32,6 +32,7 @@ class UserAction extends CommonAction{
 			AjaxResult::ajaxResult(1, '邮箱可用');
 		}
 	}
+
 }
 
 ?>

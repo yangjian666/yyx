@@ -44,7 +44,22 @@ class MemberServiceFactory{
 	 * @var IFollowService
 	 */
 	private static $followService = null;
-	
+
+    /**
+     * @var $userDepositService
+     */
+    private static $userDepositService = null;
+
+    /**
+     * @var $userWithdrawService
+     */
+    private static $userWithdrawService = null;
+
+    /**
+     * @var IFollowService
+     */
+    private static $userWalletService = null;
+
 	/**
 	 * @return IUserService
 	 */
@@ -114,6 +129,36 @@ class MemberServiceFactory{
 		}
 		return self::$followService;
 	}
+
+    /**
+     * @return $userDepositService $userDepositService
+     */
+    public static function getUserDepositService(){
+        if(!self::$userDepositService){
+            self::$userDepositService = new UserDepositService();
+        }
+        return self::$userDepositService;
+    }
+
+    /**
+     * @return IFollowService $followService
+     */
+    public static function getUserWithdrawService(){
+        if(!self::$userWithdrawService){
+            self::$userWithdrawService = new UserWithdrawService();
+        }
+        return self::$userWithdrawService;
+    }
+
+    /**
+     * @return IFollowService $followService
+     */
+    public static function getUserWalletService(){
+        if(!self::$userWalletService){
+            self::$userWalletService = new UserWalletService();
+        }
+        return self::$userWalletService;
+    }
 }
 
 ?>

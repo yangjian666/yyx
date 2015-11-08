@@ -92,6 +92,7 @@ class ModelDao {
 	 */
 	public function gets($conditions, $gets, $orders, $page, $perpage){
 		$sql = SQL::createSelect($this->table, $gets, $conditions, $orders, $page, $perpage);
+        //echo $sql;
 		return $this->db->getRows($sql);
 	}
 	
@@ -125,6 +126,7 @@ class ModelDao {
 	public function add($model){
 		$model = $this->makeSureModelData($model);
 		$sql = SQL::createInsert($this->table, $model);
+        //echo $sql;
 		$this->query($sql);
 		return $this->db->getInsertId();
 	}
@@ -295,6 +297,18 @@ class ModelDao {
      */
     public function affectedRows(){
         return $this->db->affectedRows();
+    }
+
+    public function setOrCondition($orArray = array()){
+        if(empty($orArray)){
+            return ' ';
+        }
+        $toString = '';
+        foreach($orArray as $key=>$value){
+            $toString .= "to {$key}='{$value}' ";
+        }
+        $toString = substr($toString, 2);
+        return " ({$toString}) ";
     }
 }
 

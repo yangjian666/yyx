@@ -25,8 +25,8 @@ class MoneyAction extends UserCenterAction{
 		$page = getPage();
 		$perpage = 5;
 		$ioDao = MD('Io');
-		$items = $ioDao->gets($conditions, $gets, $orders, $page, $perpage);
-		$total = $ioDao->count($conditions);
+        $items = $ioDao->gets($conditions, $gets, $orders, $page, $perpage);
+        $total = $ioDao->count($conditions);
 		$pages = multi_page($total, $perpage, $page);
 		
 		$request->setAttribute('items', $items);

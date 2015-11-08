@@ -6,7 +6,16 @@
  * Time: 上午10:32
  */
 
-class UserDepositService {
+class UserDepositService  extends TransationSupport{
+
+    /**
+     *
+     * @var ModelDao
+     */
+    private $dao = null;
+    public function __construct(){
+        $this->dao = MD('UserDeposit');
+    }
 
 }
 

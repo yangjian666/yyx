@@ -25,7 +25,7 @@ class CurlHttp {
         if(self::$instance){
             return self::$instance;
         }
-        self::$instance = new curl();
+        self::$instance = new CurlHttp();
         return self::$instance;
     }
 
@@ -36,11 +36,13 @@ class CurlHttp {
             'accountpass' => self::PASSWARD
         );
         $this->parameters = array_merge($signArr, $queryStringArray);
-        $urlString = self::URL_HOST_PREFIX . $this->getParameters();
+        $urlString = self::URL_HOST_PREFIX . $this->getQuerySting();
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $urlString);
-        curl_setopt($curl, CURLOPT_HEADER, 1);
+        //curl_setopt($curl, CURLOPT_HEADER, 1);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $result = curl_exec($curl);
         curl_close($curl);
 

@@ -9,13 +9,14 @@
 
 class UserWallet extends DynamicModelTransformSupport{
     private $id ;
+    private $userId;
     private $category ;
     private $account ;
     private $wealthType ;
     private $fee;
     private $blockhash;
     private $blockindex ;
-    private $m_time;
+    private $mTime;
     private $txid ;
     private $blocktime ;
     private $amount ;
@@ -32,6 +33,22 @@ class UserWallet extends DynamicModelTransformSupport{
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param mixed $userId
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
     }
 
     /**
@@ -143,15 +160,15 @@ class UserWallet extends DynamicModelTransformSupport{
      */
     public function getMTime()
     {
-        return $this->m_time;
+        return $this->mTime;
     }
 
     /**
      * @param mixed $m_time
      */
-    public function setMTime($m_time)
+    public function setMTime($mTime)
     {
-        $this->m_time = $m_time;
+        $this->mTime = $mTime;
     }
 
     /**
@@ -298,7 +315,7 @@ class UserWallet extends DynamicModelTransformSupport{
         $this->info = $info;
     }
 
-    
+
 }
 
 ?>

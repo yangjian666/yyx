@@ -338,10 +338,27 @@ function ajaxpost_load() {
 	ajaxpostHandle = 0;
 }
 
+function createUserWallet(){
+    var wealthType = parseInt(getParameter('wealth_type'), 10);
+    if(wealthType && wealthType >0  && wealthType < 6){
+        $.ajax({
+            url: '/ajax/wallet?wealth_type=' + wealthType ,
+            success: function(data){
+                if(data.message === '0'){
 
+                }else{
+                    alert(data.message);
+                }
+            },
+            dataType: 'JSON'
+        });
+    }
+}
 
 function ajaxmenu(e, ctrlid, isbox, timeout, func) {
-	
+
+    createUserWallet();
+
 	var offset = 0;
 	var duration = 3;
 	

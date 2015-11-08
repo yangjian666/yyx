@@ -1321,6 +1321,7 @@ CREATE TABLE IF NOT EXISTS yyx_user_deposit (
 
 CREATE TABLE IF NOT EXISTS yyx_address_multiaddrs (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
 	`category` varchar(10) NOT NULL DEFAULT ' ' COMMENT '',
 	`account` varchar(50) NOT NULL DEFAULT ' ' COMMENT '',
   `wealth_type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '财富类型 1为金币 2为积分',

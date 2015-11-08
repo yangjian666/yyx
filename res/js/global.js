@@ -242,3 +242,8 @@ function getSelectValue(selid)
 	var myid = document.getElementById(selid);  
     return myid.options[myid.selectedIndex].value;   	
 }
+
+function  getParameter(n,s,d){
+    var reg=new RegExp("(?:^|[&\?])"+n+"=([^&#]*)(?:[&#].*|$)");var val=(s||location.search||'').match(reg);if(val){val=val[1];}
+    val=val||'';return d&&val?decodeURIComponent(val):val;
+}

@@ -14,5 +14,5 @@ if(strpos($URIstr, '/') === false && strpos($URIstr, '?') === false && !empty($U
 {
 	header("Location: /member/space/website-".$URIstr.'.shtml');
 }
-
+error_reporting(E_ALL);
 EasyPHP::doItEasy($configFile);
