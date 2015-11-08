@@ -1294,7 +1294,8 @@ CREATE TABLE IF NOT EXISTS `yyx_user_withdraw` (
 	`admin_info` varchar(200) NOT NULL DEFAULT '' ,
 	`admin_ipv4` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  index(`user_id`, `wallet_address`, `txid`)
+  index(`user_id`, `wallet_address`),
+  UNIQUE KEY `txid` (`txid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
@@ -1314,7 +1315,8 @@ CREATE TABLE IF NOT EXISTS yyx_user_deposit (
 	`admin_info` varchar(200) NOT NULL DEFAULT '' ,
 	`admin_ipv4` varchar(20) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  index(`user_id`, `wallet_address`, `txid`)
+  index(`user_id`, `wallet_address`),
+  UNIQUE KEY `txid` (`txid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
