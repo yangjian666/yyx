@@ -6,7 +6,7 @@
  * Time: 下午8:06
  */
 
-class Deposit{
+class Deposit extends BasicDW{
 
     const MIN_CONFIRM_LIMIT = 1;
 
@@ -51,66 +51,13 @@ class Deposit{
         include_once( EXT_LIB_ROOT .'CurlHttp.class.php');
 
         $result = CurlHttp::getInstance()->get($reqParas);
-        $result = json_decode($result);
-        if($result && $result->code == '0' && count($result->result) > 0){
-            $result = $result->result;
+        $resultJson = json_decode($result);
+        if($resultJson && $resultJson->code == '0' && count($resultJson->result) > 0){
+            $resultJson = $resultJson->result;
 
-            return $result;
+            return $resultJson;
         }
-
-        return null;
-    }
-
-    /*
-     *   [amount] => -0.18
-    [fee] => 0
-    [confirmations] => 11295
-    [blockhash] => 00000179710cb48b9c8d4f810ba7247f85515752d478cf13f92510b4e933ec49
-    [blockindex] => 3
-    [blocktime] => 1441381213
-    [txid] => 21f0a5024b1e92b9bcba36ef21ad25fe06e5953526ea563719f16e1f24a3f093
-    [time] => 1441381051
-    [timereceived] => 1441381051
-    [comment] =>
-    [to] =>
-    [from] =>
-    [message] =>
-    [details] => Array
-        (
-            [0] => stdClass Object
-                (
-                    [account] => HBCOIN_API
-                    [address] => HdrRfaXZ2QEC47RqKRMD7tKTQjnP6V8Eqk
-                    [category] => send
-                    [amount] => -0.18
-                    [fee] => 0
-                )
-
-        )
-     */
-    /*
-     * @brif: 获取单条交易记录的详细信息
-     */
-    public function getTradeDetailInfo($txId){
-
-        if(empty($txId) || !$txId){
-            return null;
-        }
-
-        $reqParas = array(
-            'action' => 'api_gettransaction',
-            'tx' => $txId
-        );
-
-        include_once( EXT_LIB_ROOT .'CurlHttp.class.php');
-
-        $result = CurlHttp::getInstance()->get($reqParas);
-        $result = json_decode($result);
-        if($result && $result->code == '0' && $result->result){
-            $result = $result->result;
-
-            return $result;
-        }
+        setLogInfo($resultJson,__FILE__,__LINE__,'warn','最近10条记录接口失败');
 
         return null;
     }
@@ -156,16 +103,17 @@ class Deposit{
     }
 
     /*
-     * 校验交易记录是否在交易表中
+     * 校验交易记录是否在交易表中  yyx_user_deposit ok
      */
-    public function checkTradeIsInTradeHistory($addr){
-
-        $conditions = " wallet_address = '{$addr}' ";
+    public function checkTradeIsInTradeHistory($txid, &$tradeInfo){
+        $tradeInfo = null;
+        $conditions = " txid = '{$txid}' ";
 
         $udDao = MD('UserDeposit');
         $items = $udDao->gets($conditions);
         //已有钱包地址
         if(count($items) > 0){
+            $tradeInfo = $items[0];
             return true;
         }
         return false;
@@ -173,7 +121,7 @@ class Deposit{
 
 
     /*
-     * 更新交易记录中的confirm
+     * 更新交易记录中的confirm yyx_user_deposit
      */
     public function updateTradeConfirmations($confirms, $txid){
 
@@ -250,7 +198,7 @@ class Deposit{
         for($i = 0; $i < $depositLen; $i++){
             $trade = $depositTrades[$i];
             $addressInfo = null;//钱包地址对应的用户
-            //3
+            //3， 每一条记录中的钱包地址在系统中？
             if($this->checkAddrIsInSystem($trade->address, $addressInfo)){
                 //4
                 $tradeInfo = $this->getTradeDetailInfo($trade->address);
@@ -261,7 +209,7 @@ class Deposit{
                         $ret = $this->updateTradeConfirmations($trade->confirmations, $trade->txid);
                         //7 更新成功表示存在
                         if($ret){
-
+                            setLogInfo($tradeInfo,__FILE__,__LINE__,'info','充值交易已成功');
                         }else{
                             //8 不成功，则不存在，插入
                             $model = array(
@@ -271,34 +219,55 @@ class Deposit{
                                 'wallet_address' => $trade->address,
                                 'confirmations' => $trade->confirmations,
                                 'txid' => $trade->txid,
-                                'm_time' => time()
+                                'add_time' => time()
                             );
                             try {
-                                $udDao = MD('UserDeposit');
                                 //9
                                 //9.1 插入交易充值记录表
-                                $int = $udDao->add($model);
-                                //9.2 插入io表
-                                //9.3 更新用户余额，用户信息表
-                                $rechargeService = MemberServiceFactory::getRechargeService();
-                                $condition = " user_id = '{$addressInfo['user_id']}' ";
-                                $userService = MemberServiceFactory::getUserService();
-                                $user = $userService->getOne($condition);
-                                $ret = $rechargeService->setPaySuccess($user, $model);
+                                if($this->addUserDepositRecord($model)) {
+                                    //9.2 插入io表 (9.3 更新用户余额，用户信息表)包含在9.2中
 
-                                if($ret){
-                                    AjaxResult::ajaxResult(1, '0');
+                                    $rechargeService = MemberServiceFactory::getRechargeService();
+                                    $userService = MemberServiceFactory::getUserService();
+                                    try {
+                                        $user = $userService->get($addressInfo['user_id']);
+
+                                        //内部已经捕获
+                                        $ret = $rechargeService->setPaySuccess($user, $model);
+                                        if (!$ret) {
+                                            setLogInfo($tradeInfo,__FILE__,__LINE__,'fatal','充值交易记录插入出错,更新IO失败[人工处理]');
+                                        }
+                                    }catch (Exception $e){
+                                        setLogInfo($tradeInfo,__FILE__,__LINE__,'fatal','充值交易记录插入出错,未查询到用户[人工处理]');
+                                    }
                                 }else{
-                                    AjaxResult::ajaxResult(1, $ret);
+                                    setLogInfo($tradeInfo,__FILE__,__LINE__,'fatal','充值交易记录插入出错[人工处理]');
                                 }
                             }catch (Exception $e){
-                                //TODO 记录日志
-                                AjaxResult::ajaxResult(1, '系统异常');
+                                //记录日志
+                                setLogInfo($tradeInfo,__FILE__,__LINE__,'fatal','充值交易记录操作失败[人工处理]');
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    /*
+     * 增加一条充值记录 yyx_user_deposit
+     */
+    public function addUserDepositRecord($model){
+        $udDao = MD('UserDeposit');
+        try {
+            $int = $udDao->add($model);//成功返回id
+            if($int){
+                return $int;
+            }
+            setLogInfo($model,__FILE__,__LINE__,'fatal',"插入充值记录失败{$int}");
+        }catch (Exception $e){
+            setLogInfo($model,__FILE__,__LINE__,'fatal','插入充值记录失败，一般为txid键冲突');
+            return false;
         }
     }
 }

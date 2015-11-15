@@ -30,6 +30,8 @@ class TestAction extends UserCenterAction{
             exit();
         }
 
+        $log = R::getLog();
+
         //$this->unitTestOutput('单测前用户值',$user);
         $model = array(
             'user_id' => $user_id,
@@ -40,6 +42,8 @@ class TestAction extends UserCenterAction{
             'txid' => 'unit_test_record',
             'm_time' => time()
         );
+
+
         // $this->unitTestOutput('输入值',$model);
 
         $rechargeService = MemberServiceFactory::getRechargeService();
@@ -53,6 +57,17 @@ class TestAction extends UserCenterAction{
         }
         //$user = $userService->get($user_id);
         //$this->unitTestOutput('单测前用户值',$user);
+        exit();
+    }
+
+    public function logTest(){
+        setLogInfo('info',__FILE__,__LINE__,'info','测试');
+        setLogInfo('debug',__FILE__,__LINE__,'debug');
+        setLogInfo('warn',__FILE__,__LINE__,'warn');
+        setLogInfo('error',__FILE__,__LINE__,'error');
+        setLogInfo('fatal',__FILE__,__LINE__,'fatal');
+        setLogInfo('undefined',__FILE__,__LINE__,'undefined');
+
         exit();
     }
 }

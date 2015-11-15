@@ -425,13 +425,13 @@ return array (
   'ShareAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\ShareAction.class.php',
   'member.actions.SpaceAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\SpaceAction.class.php',
   'SpaceAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\SpaceAction.class.php',
-  'member.actions.TestAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\TestAction.class.php',
-  'TestAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\TestAction.class.php',
   'member.actions.UploadAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UploadAction.class.php',
   'UploadAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UploadAction.class.php',
   'member.actions.UserCenterAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UserCenterAction.class.php',
   'UserCenterAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UserCenterAction.class.php',
   'member.actions.WeiboAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WeiboAction.class.php',
+  'member.actions.WithdrawAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WithdrawAction.class.php',
+  'WithdrawAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WithdrawAction.class.php',
   'member.actions.*' => 
   array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\AuthAction.class.php',
@@ -452,10 +452,10 @@ return array (
     15 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\SettingAction.class.php',
     16 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\ShareAction.class.php',
     17 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\SpaceAction.class.php',
-    18 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\TestAction.class.php',
-    19 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UploadAction.class.php',
-    20 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UserCenterAction.class.php',
-    21 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WeiboAction.class.php',
+    18 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UploadAction.class.php',
+    19 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UserCenterAction.class.php',
+    20 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WeiboAction.class.php',
+    21 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WithdrawAction.class.php',
   ),
   'member.listeners.UserEventListener' => 'D:\\phpStudy\\yyx-master\\modules/member\\listeners\\UserEventListener.class.php',
   'UserEventListener' => 'D:\\phpStudy\\yyx-master\\modules/member\\listeners\\UserEventListener.class.php',
@@ -495,6 +495,8 @@ return array (
   'UserWithdraw' => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\UserWithdraw.class.php',
   'member.model.Weibo' => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\Weibo.class.php',
   'Weibo' => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\Weibo.class.php',
+  'member.model.Withdraw' => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\Withdraw.class.php',
+  'Withdraw' => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Withdraw.class.php',
   'member.model.*' => 
   array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\Bind.class.php',
@@ -510,12 +512,18 @@ return array (
     10 => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\UserWallet.class.php',
     11 => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\UserWithdraw.class.php',
     12 => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\Weibo.class.php',
+    13 => 'D:\\phpStudy\\yyx-master\\modules/member\\model\\Withdraw.class.php',
   ),
+  'member.script.BasicDW' => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\BasicDW.class.php',
+  'BasicDW' => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\BasicDW.class.php',
   'member.script.Deposit' => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Deposit.class.php',
   'Deposit' => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Deposit.class.php',
+  'member.script.Withdraw' => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Withdraw.class.php',
   'member.script.*' => 
   array (
-    0 => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Deposit.class.php',
+    0 => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\BasicDW.class.php',
+    1 => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Deposit.class.php',
+    2 => 'D:\\phpStudy\\yyx-master\\modules/member\\script\\Withdraw.class.php',
   ),
   'member.service.FollowService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\FollowService.class.php',
   'FollowService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\FollowService.class.php',
@@ -541,6 +549,8 @@ return array (
   'UserWalletService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\UserWalletService.class.php',
   'member.service.UserWithdrawService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\UserWithdrawService.class.php',
   'UserWithdrawService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\UserWithdrawService.class.php',
+  'member.service.WithdrawService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\WithdrawService.class.php',
+  'WithdrawService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\WithdrawService.class.php',
   'member.service.*' => 
   array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\FollowService.class.php',
@@ -555,6 +565,7 @@ return array (
     9 => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\UserService.class.php',
     10 => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\UserWalletService.class.php',
     11 => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\UserWithdrawService.class.php',
+    12 => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\WithdrawService.class.php',
   ),
   'member.service.interface.IFollowService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\interface\\IFollowService.class.php',
   'IFollowService' => 'D:\\phpStudy\\yyx-master\\modules/member\\service\\interface\\IFollowService.class.php',
@@ -617,11 +628,17 @@ return array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/news\\service\\interface\\INewsCategoryService.class.php',
     1 => 'D:\\phpStudy\\yyx-master\\modules/news\\service\\interface\\INewsService.class.php',
   ),
+  'test.actions.DepositAction' => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\DepositAction.class.php',
+  'DepositAction' => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\DepositAction.class.php',
   'test.actions.ModelAction' => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\ModelAction.class.php',
   'ModelAction' => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\ModelAction.class.php',
+  'test.actions.TestAction' => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\TestAction.class.php',
+  'TestAction' => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\TestAction.class.php',
   'test.actions.*' => 
   array (
-    0 => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\ModelAction.class.php',
+    0 => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\DepositAction.class.php',
+    1 => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\ModelAction.class.php',
+    2 => 'D:\\phpStudy\\yyx-master\\modules/test\\actions\\TestAction.class.php',
   ),
 );
 

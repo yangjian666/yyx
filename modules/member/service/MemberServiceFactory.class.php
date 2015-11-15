@@ -34,6 +34,11 @@ class MemberServiceFactory{
 	 * @var IRechargeService
 	 */
 	private static $rechargeService = null;
+
+	/**
+	 * @var WithdrawService
+	 */
+	private static $withdrawService = null;
 	
 	/**
 	 * @var IShareService
@@ -108,6 +113,16 @@ class MemberServiceFactory{
 			self::$rechargeService = new RechargeService();
 		}
 		return self::$rechargeService;
+	}
+
+	/**
+	 * @return $withdrawService $withdrawService
+	 */
+	public static function getWithdrawService(){
+		if(!self::$withdrawService){
+			self::$withdrawService = new WithdrawService();
+		}
+		return self::$withdrawService;
 	}
 	
 	/**

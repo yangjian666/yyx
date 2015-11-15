@@ -76,7 +76,8 @@ class Log {
 				}
 				$msgString .= $callFile . "\n\n";
 			}
-			$logFile = @fopen($this->logFile, "a+");
+            $fileName = $this->logFile . "." . LogLevel::getLevelName($level);
+			$logFile = @fopen($fileName, "a+");
 			@fseek($logFile, 0);
 			@fwrite($logFile, $msgString);
 			@fclose($logFile);

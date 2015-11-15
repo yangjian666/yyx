@@ -1273,6 +1273,25 @@ CREATE TABLE IF NOT EXISTS `yyx_recharge` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
+
+
+--
+-- 表的结构 `yyx_withdraw`  TODO
+--
+
+CREATE TABLE IF NOT EXISTS `yyx_withdraw` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sn` varchar(20) NOT NULL COMMENT '提现编号',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
+  `money` decimal(14,8) NOT NULL DEFAULT '0.00000000' COMMENT '提现的金额',
+  `wealth_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '财富类型 1为金币 2为积分',
+  `pay_type` varchar(20) NOT NULL COMMENT '支付类型, alipay:支付宝，bank:网银 offline:线下',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '充值状态 0:未支付 1：成功',
+  `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '注册时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+
 --
 -- 提款 对api接口记录流水，并排重
 --

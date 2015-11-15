@@ -202,3 +202,25 @@ function cache_set($key, $value=null, $lifetime=0){
 function show_ajax_message($message, $redirect=null, $timeout=2, $tpl=null){
 	die($message);
 }
+
+/*
+ * 写日志方法
+ */
+function setLogInfo($mixVar, $file, $line, $levelMethod = 'debug', $title = ''){
+    $log = R::getLog();
+    $logInfo = $mixVar;
+    $varType = gettype($logInfo);
+    $arrayMethodLists = array('debug','info','error','fatal','warn');
+
+    if($varType == 'array' || $varType == 'object'){
+        $logInfo = serialize($mixVar);
+    }
+    if($title) {
+        $logInfo = $title .": ". $logInfo;
+    }
+    if(!in_array($levelMethod, $arrayMethodLists)){
+        $levelMethod = 'debug';
+    }
+
+    $log->$levelMethod($logInfo, $file, $line);
+}

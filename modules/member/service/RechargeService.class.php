@@ -158,6 +158,7 @@ class RechargeService extends TransationSupport implements IRechargeService{
             //1
             if(!$this->recharge($rechargeRecord)){
                 $this->rollBack();
+                setLogInfo($rechargeRecord, __FILE__,__LINE__,'error', '插入充值记录表失败');
                 return false;
             }
 
@@ -173,10 +174,12 @@ class RechargeService extends TransationSupport implements IRechargeService{
             //2
             if(!$userService->money($io)){
                 $this->rollBack();
+                setLogInfo($rechargeRecord, __FILE__,__LINE__,'error', '插入IO表失败');
                 return false;
             }
             return true;
         }catch(Exception $e){
+            setLogInfo($rechargeRecord, __FILE__,__LINE__,'error', $e->getMessage());
             $this->rollBack();
         }
         return false;
