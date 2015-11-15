@@ -178,6 +178,7 @@ class ModelDao {
 	 public function updates($model, $conditions, $mathMode=false) {
 	 	$model = $this->makeSureModelData($model);
 		$sql = SQL::createUpdate($this->table, $model, $conditions, $mathMode);
+        // echo $sql;
 		return $this->query($sql);
 	}
 	

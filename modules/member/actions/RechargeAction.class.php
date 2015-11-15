@@ -165,4 +165,5 @@ class RechargeAction extends UserCenterAction{
 		}
 		die();
 	}
+
 }

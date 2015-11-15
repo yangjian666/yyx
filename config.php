@@ -64,8 +64,8 @@ $viewConfig["view_endtag"] = '}';
 //Set up the debug configure item.
 $debugConfig = array();
 $debugConfig['debug_enable'] = false;
-$debugConfig['debug_display'] = 0;
-//$debugConfig['debug_display'] = E_ALL & ~E_NOTICE & ~E_WARNING;
+//$debugConfig['debug_display'] = 0;
+$debugConfig['debug_display'] = E_ALL & ~E_NOTICE & ~E_WARNING;
 //$debugConfig['debug_display'] = E_ALL;
 
 //Set up the cookie configure item.

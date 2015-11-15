@@ -141,16 +141,15 @@ class Deposit{
      * 2. 不存在在放弃
      * 3. 存在，查询交易详细信息
      */
-    public function checkAddrIsInSystem($addr){
-        $userService = MemberServiceFactory::getUserService();
-        $userId = $this->user->getId();
-
+    public function checkAddrIsInSystem($addr, &$addressInfo){
+        $addressInfo = null;
         $conditions = " account = '{$addr}' ";
 
         $uwDao = MD('UserWallet');
         $items = $uwDao->gets($conditions);
         //已有钱包地址
         if(count($items) > 0){
+            $addressInfo = $items[0];
             return true;
         }
         return false;
@@ -186,13 +185,7 @@ class Deposit{
         $udDao = MD('UserDeposit');
         $ret = $udDao->updates($model, $conditions);
 
-        prit_r($ret);
-        exit();
-        //已有钱包地址
-        if(count($items) > 0){
-            return true;
-        }
-        return false;
+        return $ret;
     }
 
     /*
@@ -233,12 +226,13 @@ class Deposit{
     /*
      * 1. 查询10条交易
      * 2. 拆分出充值记录
-     * 3. 校验钱包地址才能在你性
+     * 3. 校验钱包地址存在性
      * 4.存在: 查询交易详情
      * 5. 查到详情, 校验详情是否有效
      * 6. 有效查询是否存在该交易记录
      * 7.存在，更新confimations
      * 8. 不存在，插入
+     * 9. 插入成功，充值成功，更新账面余额
      */
     public function  doDiposit(){
         //1
@@ -247,33 +241,63 @@ class Deposit{
             return false;
         }
 
-        $depositTrades ;
-        $withdrawTrades;
+        $depositTrades = array();
+        $withdrawTrades = array();
         //2
         $this->getSendReceiveArray($latestTrades, $withdrawTrades, $depositTrades);
 
         $depositLen = count($depositTrades);
         for($i = 0; $i < $depositLen; $i++){
             $trade = $depositTrades[$i];
+            $addressInfo = null;//钱包地址对应的用户
             //3
-            if($this->checkAddrIsInSystem($trade->address)){
+            if($this->checkAddrIsInSystem($trade->address, $addressInfo)){
                 //4
                 $tradeInfo = $this->getTradeDetailInfo($trade->address);
-                //5
-                if($tradeInfo){
+
+                if($tradeInfo){//5
                     if($this->isTradeInfoIsValid($tradeInfo, $trade->address)){
 
                         $ret = $this->updateTradeConfirmations($trade->confirmations, $trade->txid);
-                        //7
+                        //7 更新成功表示存在
                         if($ret){
 
                         }else{
-                            //8
+                            //8 不成功，则不存在，插入
+                            $model = array(
+                                'user_id' => $addressInfo['user_id'],
+                                'wealth_type' => $addressInfo['wealth_type'],
+                                'amount' => $trade->amount,
+                                'wallet_address' => $trade->address,
+                                'confirmations' => $trade->confirmations,
+                                'txid' => $trade->txid,
+                                'm_time' => time()
+                            );
+                            try {
+                                $udDao = MD('UserDeposit');
+                                //9
+                                //9.1 插入交易充值记录表
+                                $int = $udDao->add($model);
+                                //9.2 插入io表
+                                //9.3 更新用户余额，用户信息表
+                                $rechargeService = MemberServiceFactory::getRechargeService();
+                                $condition = " user_id = '{$addressInfo['user_id']}' ";
+                                $userService = MemberServiceFactory::getUserService();
+                                $user = $userService->getOne($condition);
+                                $ret = $rechargeService->setPaySuccess($user, $model);
+
+                                if($ret){
+                                    AjaxResult::ajaxResult(1, '0');
+                                }else{
+                                    AjaxResult::ajaxResult(1, $ret);
+                                }
+                            }catch (Exception $e){
+                                //TODO 记录日志
+                                AjaxResult::ajaxResult(1, '系统异常');
+                            }
                         }
                     }
                 }
-
-
             }
         }
     }
