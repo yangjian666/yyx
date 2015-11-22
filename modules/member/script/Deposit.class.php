@@ -8,7 +8,6 @@
 
 class Deposit extends BasicDW{
 
-    const MIN_CONFIRM_LIMIT = 1;
 
     static public $instance = null;
 
@@ -20,68 +19,7 @@ class Deposit extends BasicDW{
         self::$instance = new Deposit();
         return self::$instance;
     }
-    /*
-     *
-             [account] => HBCOIN_API
-            [address] => HdrRfaXZ2QEC47RqKRMD7tKTQjnP6V8Eqk
-            [category] => send
-            [amount] => -0.18
-            [fee] => 0
-            [confirmations] => 11295
-            [blockhash] => 00000179710cb48b9c8d4f810ba7247f85515752d478cf13f92510b4e933ec49
-            [blockindex] => 3
-            [blocktime] => 1441381213
-            [txid] => 21f0a5024b1e92b9bcba36ef21ad25fe06e5953526ea563719f16e1f24a3f093
-            [time] => 1441381051
-            [timereceived] => 1441381051
-            [comment] =>
-            [to] =>
-            [from] =>
-            [message] =>
-     */
-    /*
-     * @bief: 获取最新的10条交易记录
-     */
-    public function getLatestTradeRecord(){
-        $reqParas = array(
-            'action' => 'api_listtransactions',
-            'count' => 10
-        );
 
-        include_once( EXT_LIB_ROOT .'CurlHttp.class.php');
-
-        $result = CurlHttp::getInstance()->get($reqParas);
-        $resultJson = json_decode($result);
-        if($resultJson && $resultJson->code == '0' && count($resultJson->result) > 0){
-            $resultJson = $resultJson->result;
-
-            return $resultJson;
-        }
-        setLogInfo($resultJson,__FILE__,__LINE__,'warn','最近10条记录接口失败');
-
-        return null;
-    }
-
-
-    /*
-     * @brif: 拆分出10条交易记录中的充值记录和体现记录
-     */
-    public function getSendReceiveArray($results, &$sendArr, &$receiveArr){
-        $sendArr = array();
-        $receiveArr = array();
-
-        $len = count($results);
-        for($i = 0; $i < $len; $i++){
-            if($results[$i]->confirmations > self::MIN_CONFIRM_LIMIT){
-                if($results[$i]->category == 'send'){
-                    $sendArr[] = $results[$i];
-                }else if($results[$i]->category == 'receive'){
-                    $receiveArr[] = $results[$i];
-                }
-            }
-        }
-        return true;
-    }
 
     /*
      * 1. 校验钱包地址是否在该系统中 address_multiaddrs
@@ -136,25 +74,9 @@ class Deposit extends BasicDW{
         return $ret;
     }
 
-    /*
-     * @brif: 校验一条交易记录中是否存在相反的记录，如是充值记录，是否存在体现操作
-     */
-    public function isTradeHasOpersite($tradeInfo, $operSite = 'send'){
-        if($tradeInfo->details){
-            $items = $tradeInfo->details;
-            $len = count($items);
-            for($i = 0; $i < $len; $i++){
-                if($items[$i]->category == $operSite){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
     /*
-     * @brif: 校验几条充值交易详情是否有效
+     * @brif: 校验该条充值交易详情是否有效
      */
     public function isTradeInfoIsValid($tradeInfo, $addr){
         if($tradeInfo && $tradeInfo->details){
@@ -175,10 +97,10 @@ class Deposit extends BasicDW{
      * 1. 查询10条交易
      * 2. 拆分出充值记录
      * 3. 校验钱包地址存在性
-     * 4.存在: 查询交易详情
+     * 4. 存在: 查询交易详情
      * 5. 查到详情, 校验详情是否有效
      * 6. 有效查询是否存在该交易记录
-     * 7.存在，更新confimations
+     * 7. 存在，更新confimations
      * 8. 不存在，插入
      * 9. 插入成功，充值成功，更新账面余额
      */
@@ -245,7 +167,7 @@ class Deposit extends BasicDW{
                                 }
                             }catch (Exception $e){
                                 //记录日志
-                                setLogInfo($tradeInfo,__FILE__,__LINE__,'fatal','充值交易记录操作失败[人工处理]');
+                                setLogInfo($tradeInfo,__FILE__,__LINE__,'fatal','充值交易记录操作失败[人工处理]:'.$e->getMessage() );
                             }
                         }
                     }

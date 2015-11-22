@@ -9,6 +9,7 @@ class UserService extends TransationSupport implements IUserService{
 	
 	/**
 	 * 存放监听器
+	 * 存放监听器
 	 *
 	 * @var array
 	 */

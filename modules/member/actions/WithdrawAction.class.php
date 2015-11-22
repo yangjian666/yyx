@@ -26,18 +26,53 @@ class WithdrawAction extends UserCenterAction{
      * 6.系统账号余额校验，二期
      */
     public function index(HttpRequest $request){
-        $money = $request->getParameter('amount');
-        $wealth_type = $request->getParameter('wealth_type');
+        $money = floatval($request->getParameter('amount'));
+        $wealthType = intval($request->getParameter('wealth_type'));
+        $address = $request->getParameter('address');
+
+        if(!$money || $money < 0
+            || !$wealthType || $wealthType < 0 || $wealthType > 5
+        ){
+            AjaxResult::ajaxResult(1,  '请输入参数');
+        }
+
+        if(empty($address)){
+            AjaxResult::ajaxResult(1,  '请输入钱包地址');
+        }
 
         $withdrawService = MemberServiceFactory::getWithdrawService();
-        $ret = $withdrawService->checkThisTimeValid($money, $this->user, $message);
+        $user =  $this->user;
 
-        $user = $this->user;
-        print_r($user);
+        //3, 4, 5 校验
+        $ret = $withdrawService->checkThisTimeValid($money, $wealthType, $user, $message);
+
+        //TODO GA校验
+
+        if(!$ret){
+            AjaxResult::ajaxResult(1,  $message);
+        }
+
+        //插入充值记录 && 冻结提现金额
+        $withdraw = array(
+            'sn' => $withdrawService->createSn(),
+            'user_id' => $this->user->getId(),
+            'money' => $money,
+            'address' => $address,
+            'wealth_type' => $wealthType,
+            'pay_type' => 'offline',
+            'status' => '0',
+            'create_time' => $request->getRequestTime()
+        );
+
+        if(!$withdrawService->withDraw($withdraw, $user)){
+            AjaxResult::ajaxResult(1,  '提现失败,请稍后再试');
+        }
         exit();
-
     }
 
+    /*
+     * @brief: 提现历史
+     */
     public function history(HttpRequest $request){
         $wealthType = intval($request->getParameter('wealth_type'));
 
@@ -68,6 +103,11 @@ class WithdrawAction extends UserCenterAction{
         $request->assign('seo', $seo);
         $this->setView('recharge_history');
     }
+
+    /*
+     * 调用提现接口提现操作
+     */
+
 }
 
 ?>

@@ -58,6 +58,8 @@ return array (
   'UserAction' => 'D:\\phpStudy\\yyx-master\\modules/ajax\\actions\\UserAction.class.php',
   'admin.actions.WeiboAction' => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\WeiboAction.class.php',
   'WeiboAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WeiboAction.class.php',
+  'admin.actions.WithdrawAction' => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\WithdrawAction.class.php',
+  'WithdrawAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WithdrawAction.class.php',
   'admin.actions.*' => 
   array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\AbstractAdminAction.class.php',
@@ -85,6 +87,7 @@ return array (
     22 => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\RegionAction.class.php',
     23 => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\UserAction.class.php',
     24 => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\WeiboAction.class.php',
+    25 => 'D:\\phpStudy\\yyx-master\\modules/admin\\actions\\WithdrawAction.class.php',
   ),
   'admin.listeners.AdminOpPermissionFilter' => 'D:\\phpStudy\\yyx-master\\modules/admin\\listeners\\AdminOpPermissionFilter.class.php',
   'AdminOpPermissionFilter' => 'D:\\phpStudy\\yyx-master\\modules/admin\\listeners\\AdminOpPermissionFilter.class.php',
@@ -108,6 +111,8 @@ return array (
   'AdminOperationService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminOperationService.class.php',
   'admin.service.AdminServiceFactory' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminServiceFactory.class.php',
   'AdminServiceFactory' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminServiceFactory.class.php',
+  'admin.service.AdminWithdrawService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminWithdrawService.class.php',
+  'AdminWithdrawService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminWithdrawService.class.php',
   'admin.service.ManagerService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\ManagerService.class.php',
   'ManagerService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\ManagerService.class.php',
   'admin.service.MenuService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\MenuService.class.php',
@@ -116,8 +121,9 @@ return array (
   array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminOperationService.class.php',
     1 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminServiceFactory.class.php',
-    2 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\ManagerService.class.php',
-    3 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\MenuService.class.php',
+    2 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\AdminWithdrawService.class.php',
+    3 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\ManagerService.class.php',
+    4 => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\MenuService.class.php',
   ),
   'admin.service.cache.CacheMenuService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\cache\\CacheMenuService.class.php',
   'CacheMenuService' => 'D:\\phpStudy\\yyx-master\\modules/admin\\service\\cache\\CacheMenuService.class.php',
@@ -431,7 +437,6 @@ return array (
   'UserCenterAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\UserCenterAction.class.php',
   'member.actions.WeiboAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WeiboAction.class.php',
   'member.actions.WithdrawAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WithdrawAction.class.php',
-  'WithdrawAction' => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\WithdrawAction.class.php',
   'member.actions.*' => 
   array (
     0 => 'D:\\phpStudy\\yyx-master\\modules/member\\actions\\AuthAction.class.php',

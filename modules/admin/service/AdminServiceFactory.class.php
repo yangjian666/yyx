@@ -24,7 +24,8 @@ class AdminServiceFactory{
 	 * @var IAdminOperationService
 	 */
 	private static $adminOperationService;
-	
+
+    private static $adminWithdrawService;
 	
 	/**
 	 * @return IMenuService
@@ -54,6 +55,16 @@ class AdminServiceFactory{
 			self::$adminOperationService = new AdminOperationService();
 		}
 		return self::$adminOperationService;
+	}
+
+	/**
+	 * @return $withdrawService
+	 */
+	public static function getAdminWithdrawService(){
+		if(self::$adminWithdrawService == null){
+			self::$adminWithdrawService = new AdminWithdrawService();
+		}
+		return self::$adminWithdrawService;
 	}
 }
 

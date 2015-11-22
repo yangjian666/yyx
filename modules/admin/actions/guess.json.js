@@ -1,7 +1,7 @@
 /**
  * Created by triumyang on 15-11-7.
  */
-{}
+{
     [id] => 14
     [user_id] => 13
     [custom] => 0

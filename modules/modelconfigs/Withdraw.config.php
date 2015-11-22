@@ -15,6 +15,7 @@ return array(
             'sn' => 'sn',
             'userId' => 'user_id',
             'money' => 'money',
+            'address' => 'address',
             'wealthType'=> 'wealth_type',
             'payType' => 'pay_type',
             'status' => 'status',

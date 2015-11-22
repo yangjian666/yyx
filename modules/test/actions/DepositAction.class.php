@@ -13,9 +13,11 @@ class DepositAction extends Action{
     private static $depost = null;
 
     public function __construct(){
-        define('EXT_SCRIPT_ROOT', WEB_ROOT . 'modules/member/script/');
+
         include_once( EXT_SCRIPT_ROOT .'Deposit.class.php');
-        self::$depost = Deposit::getInstance();
+        if(self::$depost == null) {
+            self::$depost = Deposit::getInstance();
+        }
     }
 
     public function index(HttpRequest $request){
@@ -57,7 +59,7 @@ class DepositAction extends Action{
 
             $deposit = array();
             $withdraw = array();
-            $ret = self::$depost->getSendReceiveArray($ret, $deposit, $withdraw);
+            $ret = self::$depost->getSendReceiveArray($ret, $withdraw, $deposit);
             if($ret == null){
                 $this->unitTestOutput('失败');
             }else{
@@ -65,7 +67,7 @@ class DepositAction extends Action{
                 $this->unitTestOutput('提现: ',$withdraw);
             }
         }
-        exi();
+        exit();
     }
 
     /*

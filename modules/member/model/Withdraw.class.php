@@ -4,7 +4,7 @@
  * @since 1.0
  *
  */
-class Recharge extends DynamicModelTransformSupport{
+class Withdraw extends DynamicModelTransformSupport{
 
     /**
      * 用户ID
@@ -29,6 +29,7 @@ class Recharge extends DynamicModelTransformSupport{
      * @var int
      */
     private $money;
+    private $address;
     private $wealthType;
 
     /**
@@ -111,11 +112,32 @@ class Recharge extends DynamicModelTransformSupport{
         $this->money = $money;
     }
 
-    public function setWealthType($wealthType){
-        $this->wealthType = $wealthType;
+    /**
+     * @return mixed
+     */
+    public function getAddress(){
+        return $this->address;
     }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address){
+        $this->address = $address;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getWealthType(){
         return $this->wealthType;
+    }
+
+    /**
+     * @param mixed $wealthType
+     */
+    public function setWealthType($wealthType){
+        $this->wealthType = $wealthType;
     }
 
     /**

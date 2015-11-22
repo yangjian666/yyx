@@ -38,8 +38,6 @@ class CurlHttp {
         $this->parameters = array_merge($signArr, $queryStringArray);
         $urlString = self::URL_HOST_PREFIX . $this->getQuerySting();
 
-        setLogInfo($urlString,__FILE__,__LINE__,'info','最近10条记录接口');
-
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $urlString);
         //curl_setopt($curl, CURLOPT_HEADER, 1);

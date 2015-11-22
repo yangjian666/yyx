@@ -19,6 +19,9 @@ class TestAction extends UserCenterAction{
         print_r($mixVar);
     }
 
+    /*
+     * 设置支付信息单测 插入IO记录，更新个人余额表
+     */
     public function test(HttpRequest $request){
         $userService = MemberServiceFactory::getUserService();
         $user_id = $request->getParameter('user_id');

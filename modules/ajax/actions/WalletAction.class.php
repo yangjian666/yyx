@@ -41,7 +41,7 @@ class WalletAction extends UserCenterAction{
             include_once( EXT_LIB_ROOT .'CurlHttp.class.php');
 
             $result = CurlHttp::getInstance()->get($reqParas);
-
+            //响应内容比较特殊，正则拆分出来
             $int = preg_match_all("/\s+\d{1,4}\s+(\w{34})<br>/", $result, $matches );
 
             if($int && $matches[1]){
@@ -58,16 +58,23 @@ class WalletAction extends UserCenterAction{
                     );
                     try {
                         $int = $uwDao->add($model);
+                        if(!$int){
+                            setLogInfo($model,__FILE__,__LINE__,'debug','生成的钱包的地址插入数据库失败:');
+                            AjaxResult::ajaxResult(1, '系统异常');
+                        }
                     }catch (Exception $e){
+                        setLogInfo($model,__FILE__,__LINE__,'debug','生成的钱包的地址插入数据库异常:' . $e->getMessage());
                         AjaxResult::ajaxResult(1, '系统异常');
                     }
 
                 }else{
+                    setLogInfo($result,__FILE__,__LINE__,'debug','查询钱包API返回数据解析出错');
                     AjaxResult::ajaxResult(1, '调用接口出现问题，请重试');
                 }
 
                 AjaxResult::ajaxResult(1, '0');
             }else{
+                setLogInfo($conditions,__FILE__,__LINE__,'debug','查询钱包API异常');
                 AjaxResult::ajaxResult(1, '调用接口出问题');
             }
         }
@@ -75,6 +82,7 @@ class WalletAction extends UserCenterAction{
     }
 
     public function gets(){
+        AjaxResult::ajaxResult(1, '调用接口出问题');
 
         $reqParas = array(
             'action' => 'api_listtransactions',
@@ -97,6 +105,8 @@ class WalletAction extends UserCenterAction{
     }
 
     public function get(){
+        AjaxResult::ajaxResult(1, '调用接口出问题');
+
         $txId = '21f0a5024b1e92b9bcba36ef21ad25fe06e5953526ea563719f16e1f24a3f093';
         /*
          * 99ac1dd93cc52826efdd52014c09871c2c5a828bf52ddd2551bc1dd51c8a855a
@@ -115,29 +125,10 @@ class WalletAction extends UserCenterAction{
         if($result && $result->code == '0' && $result->result){
             $result = $result->result;
 
-            print_r($result);
-exit();
             return $result;
         }
 
         return null;
-    }
-
-    public function getSendReceiveArray($results, &$sendArr, &$receiveArr){
-        $sendArr = array();
-        $receiveArr = array();
-
-        $len = count($results);
-        for($i = 0; $i < $len; $i++){
-            if($results[$i]->confirmations > self::MIN_CONFIRM_LIMIT){
-                if($results[$i]->category == 'send'){
-                    $sendArr[] = $results[$i];
-                }else if($results[$i]->category == 'receive'){
-                    $receiveArr[] = $results[$i];
-                }
-            }
-        }
-        return true;
     }
 
 }

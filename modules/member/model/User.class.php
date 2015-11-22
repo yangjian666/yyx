@@ -737,6 +737,20 @@ class User extends DynamicModelTransformSupport{
         return '';
     }
 
+    public function getFreeType($type){
+        $type = intval($type);
+        $map = array('',
+            'freeze_money',
+            'freeze_integral',
+            'freeze_ltc',
+            'freeze_btc',
+            'freeze_doge');
+        if($type < 6){
+            return $map[$type];
+        }
+        return '';
+    }
+
     public function getWealthTypeName($type){
         $type = intval($type);
         $map = array('',
