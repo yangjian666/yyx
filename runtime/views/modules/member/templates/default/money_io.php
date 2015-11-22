@@ -4,9 +4,10 @@
 	<div class="setting_body">
 		<div class="caption">金币收支明细</div>
         <ul class="nav nav-tabs" id="setting_tab">
+            <li><a href="/member/withdraw/history/?wealth_type=<?php echo $_GET['wealth_type']; ?>">提现记录</a></li>
 	        <li><a href="/member/recharge/history/?wealth_type=<?php echo $_GET['wealth_type']; ?>">充值记录</a></li>
 			<li class="active"><a href="/member/money/io/?wealth_type=<?php echo $_GET['wealth_type']; ?>">收支明细</a></li>
-	        <li><a href="/member/money/?wealth_type=<?php echo $_GET['wealth_type']; ?>">我的金币</a></li>
+	        <li><a href="/member/money/?wealth_type=<?php echo $_GET['wealth_type']; ?>">我的账户</a></li>
         </ul>
         
         <div class="tab-content setting_list">

@@ -1,0 +1,33 @@
+<form style="margin:0px;" method="post" id="ajaxform" name="ajaxform" action="/member/withdraw?wealth_type={$_GET['wealth_type']}" enctype="multipart/form-data">
+    <h1>金币赠送</h1>
+    <a href="javascript:hideMenu();" title="关闭" class="float_del">关闭</a>
+    <div class="popupmenu_inner" style="padding:20px; width:300px;">
+
+        <div class="modal-body" style="padding:0px;">
+
+            <div class="control-group">
+                <label for="username">钱包地址</label>
+                <div class="controls">
+                    <input type="text" id="address" class="span3" name="address" value="{$toUser['name']}">
+                </div>
+                <div class="controls" style="display: none;">
+                    <input type="hidden" class="span3" name="wealth_type" value="{$_GET['wealth_type']}">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="msgcontent">金额</label>
+                <div class="controls">
+                    <input type="text" class="span3" name="amount" value="10" min="1" max="1000">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <span class="ajaxform_tip" id="__ajaxform"></span>
+        <input type="submit" class="btn btn-primary submit" value="确认" onclick="return ajaxPostForm('ajaxform', '', 'postFormHandle', '1000', '__ajaxform')"/>
+    </div>
+</form>

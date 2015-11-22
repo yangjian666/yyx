@@ -4,6 +4,7 @@
 	<div class="setting_body">
 		<div class="caption">我的{$user->getWealthTypeName($_GET['wealth_type'])}</div>
         <ul class="nav nav-tabs" id="setting_tab">
+            <li><a href="/member/withdraw/history/?wealth_type={$_GET['wealth_type']}">提现记录</a></li>
 	        <li><a href="/member/recharge/history/?wealth_type={$_GET['wealth_type']}">充值记录</a></li>
 			<li><a href="/member/money/io/?wealth_type={$_GET['wealth_type']}">收支明细</a></li>
 	        <li class="active"><a href="/member/money/?wealth_type={$_GET['wealth_type']}">我的{$user->getWealthTypeName($_GET['wealth_type'])}</a></li>
@@ -13,8 +14,10 @@
 			<div class="tab-pane active">
 				<div class="mymoney">
 					<p class="mymoneyinfo">当前可用{$user->getWealthTypeName($_GET['wealth_type'])}为：<span>{run $funcName = $user->getWealthTypeFuncName($_GET['wealth_type'])}{$user->$funcName()}</span>, 冻结金币为：<span>{run $funcName = $user->getFreeTypeFuncName($_GET['wealth_type'])}{$user->$funcName()}</span></p>
-					<a class="btn btn-success paybtn"  href="/member/recharge/index/?wealth_type={$_GET['wealth_type']}" id="money_recharge" onclick="ajaxmenu(event, this.id, 1)">充 值</a>&nbsp; &nbsp; <a class="btn btn-success paybtn"  href="/member/money/handsel/?wealth_type={$_GET['wealth_type']}" id="money_handsel" onclick="ajaxmenu(event, this.id, 1)">转 赠</a>
-				</div>
+                    <a class="btn btn-success paybtn"  href="/member/recharge/index/?wealth_type={$_GET['wealth_type']}" id="money_recharge" onclick="ajaxmenu(event, this.id, 1)">充 值</a>&nbsp; &nbsp;
+                    <a class="btn btn-success paybtn"  href="/member/money/handsel/?wealth_type={$_GET['wealth_type']}" id="money_handsel" onclick="ajaxmenu(event, this.id, 1)">转 赠</a>&nbsp; &nbsp;
+                    <a class="btn btn-success paybtn"  href="/member/withdraw/handsel/?wealth_type={$_GET['wealth_type']}" id="money_withdraw" onclick="ajaxmenu(event, this.id, 1)">提现</a>
+                </div>
 
 				<table class="table mlist">
 				<thead>

@@ -33,11 +33,11 @@ class WithdrawAction extends UserCenterAction{
         if(!$money || $money < 0
             || !$wealthType || $wealthType < 0 || $wealthType > 5
         ){
-            AjaxResult::ajaxResult(1,  '请输入参数');
+            show_message( '请输入参数');
         }
 
         if(empty($address)){
-            AjaxResult::ajaxResult(1,  '请输入钱包地址');
+            show_message( '请输入钱包地址');
         }
 
         $withdrawService = MemberServiceFactory::getWithdrawService();
@@ -49,7 +49,7 @@ class WithdrawAction extends UserCenterAction{
         //TODO GA校验
 
         if(!$ret){
-            AjaxResult::ajaxResult(1,  $message);
+            show_message(  $message);
         }
 
         //插入充值记录 && 冻结提现金额
@@ -65,8 +65,10 @@ class WithdrawAction extends UserCenterAction{
         );
 
         if(!$withdrawService->withDraw($withdraw, $user)){
-            AjaxResult::ajaxResult(1,  '提现失败,请稍后再试');
+            show_message( '提现失败,请稍后再试');
         }
+
+        AjaxResult::closeAjaxWindow('操作成功，等待管理员处理，正在关闭窗口!');
         exit();
     }
 
@@ -101,12 +103,17 @@ class WithdrawAction extends UserCenterAction{
             'keywords' => ''
         );
         $request->assign('seo', $seo);
-        $this->setView('recharge_history');
+        $this->setView('withdraw');
     }
 
     /*
      * 调用提现接口提现操作
      */
+    public function handsel(HttpRequest $request){
+
+        $this->setView('withdraw_handsel');
+
+    }
 
 }
 
