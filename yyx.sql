@@ -983,10 +983,11 @@ INSERT INTO `yyx_menu` (`id`, `name`, `url`, `parent_id`, `status`, `is_system`,
 (22, '分类管理', '/admin/newsCategory/', 20, 1, 0, 0),
 (23, '庄家认证', '/admin/makersAuth', 12, 1, 0, 0),
 (24, '微博管理', '/admin/weibo/', 1, 1, 0, 0),
-(25, '自定义类型', '/admin/customType/', 15, 1, 0, 0);
+(25, '自定义类型', '/admin/customType/', 15, 1, 0, 0),
+(26, '提现管理', '/admin/withdraw/history', 12, 1, 0, 0);
 
 -- --------------------------------------------------------
-
+-- INSERT INTO `yyx_menu`(`id`, `name`, `url`, `parent_id`, `status`, `is_system`, `sort_num`) VALUES (26, '提现管理', '/admin/withdraw/history', 12, 1, 0, 0)
 --
 -- 表的结构 `yyx_message`
 --
@@ -1284,7 +1285,8 @@ CREATE TABLE IF NOT EXISTS `yyx_withdraw` (
   `sn` varchar(20) NOT NULL COMMENT '提现编号',
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `money` decimal(14,8) NOT NULL DEFAULT '0.00000000' COMMENT '提现的金额',
-  `address` varchar(150) NOT NULL  COMMENT '提现的金额',
+  `tax` decimal(14,8) NOT NULL DEFAULT '0.00000000' COMMENT '提现手续费',
+  `address` varchar(150) NOT NULL  COMMENT '提现的地址',
   `wealth_type` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '财富类型 1为金币 2为积分',
   `pay_type` varchar(20) NOT NULL COMMENT '支付类型, alipay:支付宝，bank:网银 offline:线下',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '充值状态 0:未支付 1：成功',
@@ -1327,7 +1329,7 @@ CREATE TABLE IF NOT EXISTS yyx_user_deposit (
 	`wallet_address` varchar(50) NOT NULL COMMENT '钱包地址' ,
 	`confirmations` int NOT NULL DEFAULT '0' COMMENT '确认次数',
 	`amount` decimal(14,8) NOT NULL DEFAULT '0.00000000' COMMENT '金额',
-  `wealth_type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '财富类型 1为金币 2为积分',
+  `wealth_type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '财富类型 1为金币 2为积分 3LTC 4BTC 5DOGE',
 	`txid` varchar(200)  NOT NULL COMMENT '交易号' ,
 	`tx_is_ok` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '交易ok? 0: 未完成，1：完成',
 	`add_time` int(10) NOT NULL DEFAULT '0' COMMENT '添加时间',

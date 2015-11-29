@@ -31,6 +31,9 @@
 		
 		<div class="caption">用户列表</div>
         <ul class="nav nav-tabs" id="user_tab">
+			<li {$astr[6]}><a href="/member/list/t-6.shtml">DOGE排行</a></li>
+			<li {$astr[5]}><a href="/member/list/t-5.shtml">BTC排行</a></li>
+			<li {$astr[4]}><a href="/member/list/t-4.shtml">LTC排行</a></li>
 			<li {$astr[3]}><a href="/member/list/t-3.shtml">金币排行</a></li>
 			<li {$astr[2]}><a href="/member/list/t-2.shtml">积分排行</a></li>
 			<li {$astr[1]}><a href="/member/list/t-1.shtml">胜率排行</a></li>
@@ -58,7 +61,7 @@
 					</div>
 					<div class="userinfo">
 						<p>积分：<span class="c">{$item['available_integral']}</span></p>
-						<p>金币：<span class="m">{$item['available_money']}</span></p>
+						<p>{$view_type['name']}：<span class="m">{$item[$view_type['type']]}</span></p>
 						<p>竞猜：{$item['guess_count']} 场</p>
 						<p>成功率：{$item['accuracy']}% 胜率</p>	
 					</div>

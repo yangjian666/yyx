@@ -113,12 +113,14 @@ abstract class AbstractAdminAction extends Action {
 		$index_url = $act_url ."index/";
 		$insert_url = $act_url ."insert/";
 		$update_url = $act_url ."update/";
-		
+		$history_url = $act_url ."history/";
+
 		//当前URL
 		$request->setAttribute('site_url', $site_url); //当前站点URL
 		$request->setAttribute('act_url', $act_url); //当前ActionURL
 		$request->setAttribute('met_url', $met_url); //当前MethodURL
 		$request->setAttribute('index_url', $index_url);
+		$request->setAttribute('history_url', $history_url);
 		$request->setAttribute('insert_url', $insert_url);
 		$request->setAttribute('update_url', $update_url);
 		$request->setAttribute('req_url', $request->getRequestURI()); //当前RequestURL

@@ -34,15 +34,15 @@ class RechargeAction extends AbstractAdminAction{
 		if($parameters['status']){
 			$request->setAttribute('status', $parameters['status']);
 			$sendStatus = intval($parameters['status']) - 1;
-			$conditions .= " AND status = '{status}'";
+			$conditions .= " AND status = '{$sendStatus}'";
 		}
 		if($parameters['startTime']){
 			$startTime = strtotime($parameters['startTime']);
-			$conditions .= " AND register_time > '{$startTime}'";
+			$conditions .= " AND create_time > '{$startTime}'";
 		}
 		if($parameters['endTime']){
 			$endTime = strtotime($parameters['endTime']);
-			$conditions .= " AND register_time < '{$endTime}'";
+			$conditions .= " AND create_time < '{$endTime}'";
 		}
 		$this->setConditions($conditions);
 		parent::index($request);

@@ -57,6 +57,7 @@ class WithdrawAction extends UserCenterAction{
             'sn' => $withdrawService->createSn(),
             'user_id' => $this->user->getId(),
             'money' => $money,
+            'tax' => $withdrawService->calcTax($money),
             'address' => $address,
             'wealth_type' => $wealthType,
             'pay_type' => 'offline',
@@ -114,6 +115,7 @@ class WithdrawAction extends UserCenterAction{
         $this->setView('withdraw_handsel');
 
     }
+
 
 }
 

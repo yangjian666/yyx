@@ -46,6 +46,8 @@ class CurlHttp {
         $result = curl_exec($curl);
         curl_close($curl);
 
+        // 不能写日志，日志文件易被外界读取
+        //setLogInfo($urlString,__FILE__,__LINE__,'info','API:URL: ');
         return $result;
     }
 

@@ -28,28 +28,49 @@ class ListAction extends UserCenterAction{
 				$conditions .= " AND (city='$city')";
 			}
 		}	
-		
-		if($t == 1)
-			$orders = array('accuracy'=>'desc'); //胜率排行
-		elseif($t == 2)
+		$viewType = array(
+            'type'=>'available_money',
+            'name'=>'金币');
+		if($t == 1) {
+            $orders = array('accuracy' => 'desc'); //胜率排行
+        }
+		elseif($t == 2){
 			$orders = array('available_integral'=>'desc'); //积分排行
-		elseif($t == 3)
+        }
+		elseif($t == 3){
             $orders = array('available_money'=>'desc'); //jintian 排行
-        elseif($t == 4)
-			$orders = array('available_ltc'=>'desc'); //btc排行
-        elseif($t == 5)
-            $orders = array('available_btc'=>'desc'); //ltc排行
-        elseif($t == 6)
+        }
+        elseif($t == 4){
+			$orders = array('available_ltc'=>'desc'); //Ltc排行
+            $viewType['type'] = 'available_ltc';
+            $viewType['name'] = 'LTC';
+        }
+        elseif($t == 5){
+            $orders = array('available_btc'=>'desc'); //Btc排行
+            $viewType['type'] = 'available_btc';
+            $viewType['name'] = 'BTC';
+        }
+        elseif($t == 6){
             $orders = array('available_doge'=>'desc'); //dode排行
-		else
+            $viewType['type'] = 'available_doge';
+            $viewType['name'] = 'DOGE';
+        }
+		else{
 			$orders = array('id'=>'desc');
+        }
 		
-		if($t>=1 && $t<=3) $astr[$t] = 'class="active"'; else $astr[0] = 'class="active"';		
+		if($t>=1 && $t<=6) {
+            $astr[$t] = 'class="active"';
+        }else {
+            $astr[0] = 'class="active"';
+        }
 		
 		$page = getPage();
 		$perpage = 5;
 		$userService = MemberServiceFactory::getUserService();
+        $gets = $this->getSelctFields();
 		$items = $userService->gets($conditions, $gets, $orders, $page, $perpage);
+        //print_r($items);exit;
 		$total = $userService->count($conditions);
 		$pages = multi_page($total, $perpage, $page);
 		
@@ -76,7 +97,8 @@ class ListAction extends UserCenterAction{
 		$request->setAttribute('perpage', $perpage);
 		$request->setAttribute('astr', $astr);
 		$request->setAttribute('province_arr', $province_arr);
-		
+		$request->setAttribute('view_type', $viewType);
+
 		$seo = array(
 				'title' => '用户列表',
 				'description' => '',
@@ -85,4 +107,8 @@ class ListAction extends UserCenterAction{
 		$request->assign('seo', $seo);
 		$this->setView('list');
 	}
+
+    private function getSelctFields(){
+        return 'id,name,nickname,sex,province,city,available_money,available_btc,available_ltc,available_doge,available_integral,guess_count,accuracy,friend';
+    }
 }

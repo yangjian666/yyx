@@ -29,6 +29,7 @@ class Withdraw extends DynamicModelTransformSupport{
      * @var int
      */
     private $money;
+    private $tax;
     private $address;
     private $wealthType;
 
@@ -110,6 +111,20 @@ class Withdraw extends DynamicModelTransformSupport{
      */
     public function setMoney($money){
         $this->money = $money;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTax(){
+        return $this->tax;
+    }
+
+    /**
+     * @param mixed $tax
+     */
+    public function setTax($tax){
+        $this->tax = $tax;
     }
 
     /**

@@ -2,7 +2,7 @@
 {res:js uploadify/swfobject.js}
 {res:js uploadify/jquery.uploadify.v2.1.4.min.js}
 <div class="setting_body">
-    <div class="caption">充值记录</div>
+    <div class="caption">提现记录</div>
     <ul class="nav nav-tabs" id="setting_tab">
         <li class="active"><a href="/member/withdraw/history/?wealth_type={$_GET['wealth_type']}">提现记录</a></li>
         <li><a href="/member/recharge/history/?wealth_type={$_GET['wealth_type']}">充值记录</a></li>
@@ -31,7 +31,7 @@
                     <td>{$item['address']}</td>
                     <td>{date $item['create_time']}</td>
                     <td>{if $item['status']}成功{else}提现中{/if}</td>
-                    <td>--</td>
+                    <td>{$item['tax']}</td>
                 </tr>
                 {/loop}
                 </tbody>

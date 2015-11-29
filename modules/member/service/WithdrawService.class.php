@@ -22,6 +22,12 @@ class WithdrawService  extends TransationSupport{
     const ONE_DAY_MAX = 1000;
     const ONE_DAY_RECORDS_MAX = 3;
 
+
+    CONST TAX_TYPE = 0;//0: 提现比例； 1: 固定金额
+    CONST TAX_FIXED = 0.003; //固定金额手续费
+    CONST TAX_PERCENT = 0.003;//提现比例
+
+
     public function __construct(){
         $this->dao = MD('Withdraw');
     }
@@ -32,6 +38,19 @@ class WithdrawService  extends TransationSupport{
      */
     public function createSn(){
         return self::$snPrefix . date('YmdHis');
+    }
+
+
+    /*
+     * 计算提现手续费 
+     */
+    public function calcTax($money){
+        if(self::TAX_TYPE === 0){
+            return $money*(self::TAX_PERCENT);
+        }else if(self::TAX_TYPE === 1){
+            RETURN self::TAX_FIXED;
+        }
+        return 0;
     }
 
     /*
